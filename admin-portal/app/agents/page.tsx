@@ -22,7 +22,7 @@ interface AgentUsage {
 }
 
 const AGENTS: Agent[] = [
-  { id: 'gbi-agent', name: 'GBI Agent', description: 'General Business Intelligence agent for data analysis', enabled: true },
+  { id: 'gma-agent', name: 'GMA (Global Macro Agent)', description: 'Global macro analysis and economic intelligence', enabled: true },
   { id: 'prd-agent', name: 'PRD Agent', description: 'Product Requirements Document generator', enabled: true },
   { id: 'chart-builder', name: 'Chart Builder Agent', description: 'Creates visualizations from data', enabled: true },
   { id: 'pipelines-agent', name: 'Pipelines Agent', description: 'Manages data processing pipelines', enabled: true },
