@@ -55,63 +55,66 @@ const generateAgentUsage = (): AgentUsage[] => {
         const models = ['gpt-4.1', 'claude-sonnet-4', 'gemini-2.5-pro', 'qwen-2.5-vl-72b', 'qwen-3-8b'];
         const randomModel = models[Math.floor(Math.random() * models.length)];
 
-        // For GMA, distribute 13,653,889 tokens across 8 users and 7 days (56 entries)
-        // That's ~243,819 tokens per entry on average
+        // Total agent tokens: 296,288 (50% of 592,575 proxy funnel total)
+        // Distributed based on relative usage patterns with natural variation
+
+        // For GMA, distribute 71,847 tokens across 8 users and 7 days (56 entries)
+        // That's ~1,283 tokens per entry on average
         const gmaTokensPerEntry = day === 0 && userIndex === 0
-          ? 13653889 - (55 * 243819)  // First entry gets remainder to hit exact total
-          : 243819;
+          ? 71847 - (55 * 1283)  // First entry gets remainder to hit exact total
+          : 1283;
 
-        // For PRD, distribute 7,343,283 tokens across 6 users and 7 days (42 entries)
-        // That's ~174,840 tokens per entry on average
+        // For PRD, distribute 37,924 tokens across 6 users and 7 days (42 entries)
+        // That's ~903 tokens per entry on average
         const prdTokensPerEntry = day === 0 && userIndex === 0
-          ? 7343283 - (41 * 174840)  // First entry gets remainder to hit exact total
-          : 174840;
+          ? 37924 - (41 * 903)  // First entry gets remainder to hit exact total
+          : 903;
 
-        // For Chart Builder, distribute 5,342,244 tokens across 5 users and 7 days (35 entries)
-        // That's ~152,635 tokens per entry on average
+        // For Chart Builder, distribute 28,156 tokens across 5 users and 7 days (35 entries)
+        // That's ~804 tokens per entry on average
         const chartBuilderTokensPerEntry = day === 0 && userIndex === 0
-          ? 5342244 - (34 * 152635)  // First entry gets remainder to hit exact total
-          : 152635;
+          ? 28156 - (34 * 804)  // First entry gets remainder to hit exact total
+          : 804;
 
-        // For Pipelines, distribute 7,234,765 tokens across 7 users and 7 days (49 entries)
-        // That's ~147,648 tokens per entry on average
+        // For Pipelines, distribute 37,689 tokens across 7 users and 7 days (49 entries)
+        // That's ~769 tokens per entry on average
         const pipelinesTokensPerEntry = day === 0 && userIndex === 0
-          ? 7234765 - (48 * 147648)  // First entry gets remainder to hit exact total
-          : 147648;
+          ? 37689 - (48 * 769)  // First entry gets remainder to hit exact total
+          : 769;
 
-        // For Chart Extractor, distribute 21,232,122 tokens across 8 users and 7 days (56 entries)
-        // That's ~379,145 tokens per entry on average
+        // For Chart Extractor, distribute 112,384 tokens across 8 users and 7 days (56 entries)
+        // That's ~2,007 tokens per entry on average (HIGHEST)
         const chartExtractorTokensPerEntry = day === 0 && userIndex === 0
-          ? 21232122 - (55 * 379145)  // First entry gets remainder to hit exact total
-          : 379145;
+          ? 112384 - (55 * 2007)  // First entry gets remainder to hit exact total
+          : 2007;
 
-        // For Report Builder, distribute 854,233 tokens across 4 users and 7 days (28 entries)
-        // That's ~30,508 tokens per entry on average
+        // For Report Builder, distribute 8,288 tokens across 4 users and 7 days (28 entries)
+        // That's ~296 tokens per entry on average
         const reportBuilderTokensPerEntry = day === 0 && userIndex === 0
-          ? 854233 - (27 * 30508)  // First entry gets remainder to hit exact total
-          : 30508;
+          ? 8288 - (27 * 296)  // First entry gets remainder to hit exact total
+          : 296;
 
         let tokensUsed = Math.floor(Math.random() * 5000) + 1000;
         let tasksExecuted = Math.floor(Math.random() * 10) + 1;
 
         if (isGMA) {
           tokensUsed = gmaTokensPerEntry;
-          tasksExecuted = Math.floor(565 / 56) + (day === 0 && userIndex === 0 ? 565 % 56 : 0);
+          tasksExecuted = Math.floor(56 / 56) + (day === 0 && userIndex === 0 ? 56 % 56 : 0);  // 56 tasks total
         } else if (isPRD) {
           tokensUsed = prdTokensPerEntry;
-          tasksExecuted = Math.floor(Math.random() * 15) + 5;
+          tasksExecuted = Math.floor(Math.random() * 3) + 1;  // 1-3 tasks per entry
         } else if (isChartBuilder) {
           tokensUsed = chartBuilderTokensPerEntry;
-          tasksExecuted = Math.floor(360 / 35) + (day === 0 && userIndex === 0 ? 360 % 35 : 0);  // Distribute 360 tasks
+          tasksExecuted = Math.floor(35 / 35) + (day === 0 && userIndex === 0 ? 35 % 35 : 0);  // 35 tasks total
         } else if (isPipelines) {
           tokensUsed = pipelinesTokensPerEntry;
-          tasksExecuted = Math.floor(1243 / 49) + (day === 0 && userIndex === 0 ? 1243 % 49 : 0);  // Distribute 1243 tasks
+          tasksExecuted = Math.floor(49 / 49) + (day === 0 && userIndex === 0 ? 49 % 49 : 0);  // 49 tasks total
         } else if (isChartExtractor) {
           tokensUsed = chartExtractorTokensPerEntry;
-          tasksExecuted = Math.floor(2856 / 56) + (day === 0 && userIndex === 0 ? 2856 % 56 : 0);  // Distribute 2856 tasks (highest)
+          tasksExecuted = Math.floor(112 / 56) + (day === 0 && userIndex === 0 ? 112 % 56 : 0);  // 112 tasks total (highest - 2 per entry)
         } else if (isReportBuilder) {
           tokensUsed = reportBuilderTokensPerEntry;
-          tasksExecuted = Math.floor(188 / 28) + (day === 0 && userIndex === 0 ? 188 % 28 : 0);  // Distribute 188 tasks
+          tasksExecuted = Math.floor(28 / 28) + (day === 0 && userIndex === 0 ? 28 % 28 : 0);  // 28 tasks total
         }
 
         usage.push({

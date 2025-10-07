@@ -54,19 +54,19 @@ export default function CostsTab() {
           totalTokens,
         }));
 
-        // If no usage data, add realistic mock data for demonstration (~2B tokens)
+        // If no usage data, add realistic mock data for demonstration (~592K tokens total, matching proxy funnel)
         if (usage.length === 0 || usage.every(u => u.totalTokens === 0)) {
           const mockUsage: ModelUsage[] = [
-            { modelId: 'qwen-2.5-vl-72b', totalTokens: 1_100_000_000 },    // Heavy vision workload
-            { modelId: 'qwen-3-30b-a3b', totalTokens: 0 },                 // Set to 0 per user request
-            { modelId: 'qwen-3-coder-30b-a3b', totalTokens: 360_000_000 }, // Code generation
-            { modelId: 'qwen-3-8b', totalTokens: 240_000_000 },            // Fast queries
-            { modelId: 'qwen-3-vl-30b-a3b', totalTokens: 160_000_000 },    // Secondary vision
-            { modelId: 'deepseek-r1-distill-qwen-14b', totalTokens: 80_000_000 },
-            { modelId: 'qwen-3-32b', totalTokens: 30_000_000 },
-            { modelId: 'gpt-4.1', totalTokens: 20_000_000 },
-            { modelId: 'claude-sonnet-4', totalTokens: 6_000_000 },
-            { modelId: 'gemini-2.5-pro', totalTokens: 4_000_000 },
+            { modelId: 'qwen-2.5-vl-72b', totalTokens: 180_000 },    // Heavy vision workload (30%)
+            { modelId: 'qwen-3-30b-a3b', totalTokens: 0 },           // Set to 0 per user request
+            { modelId: 'qwen-3-coder-30b-a3b', totalTokens: 120_000 }, // Code generation (20%)
+            { modelId: 'qwen-3-8b', totalTokens: 150_000 },          // Fast queries (25%)
+            { modelId: 'qwen-3-vl-30b-a3b', totalTokens: 60_000 },   // Secondary vision (10%)
+            { modelId: 'deepseek-r1-distill-qwen-14b', totalTokens: 30_000 }, // 5%
+            { modelId: 'qwen-3-32b', totalTokens: 20_000 },          // 3%
+            { modelId: 'gpt-4.1', totalTokens: 15_000 },             // 2.5%
+            { modelId: 'claude-sonnet-4', totalTokens: 12_575 },     // 2%
+            { modelId: 'gemini-2.5-pro', totalTokens: 5_000 },       // 1%
           ];
           setModelUsage(mockUsage);
         } else {
