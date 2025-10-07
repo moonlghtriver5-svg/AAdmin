@@ -9,6 +9,7 @@ export default function Sidebar() {
   const menuItems = [
     { name: 'Usage', path: '/', icon: '📊' },
     { name: 'Controls', path: '/controls', icon: '⚙️' },
+    { name: 'Agents', path: '/agents', icon: '🤖' },
     { name: 'Proxy Funnel', path: '/proxy-funnel', icon: '🔍' },
   ];
 
