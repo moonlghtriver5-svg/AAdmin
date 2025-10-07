@@ -49,7 +49,7 @@ export function getMessagesByDay(logs: ProxyLog[], days: number = 7) {
   const now = new Date();
   const dayData: { date: string; count: number }[] = [];
 
-  for (let i = days - 1; i >= 0; i--) {
+  for (let i = 0; i < days; i++) {
     const date = new Date(now);
     date.setDate(date.getDate() - i);
     date.setHours(0, 0, 0, 0);
@@ -74,7 +74,7 @@ export function getMessagesByHour(logs: ProxyLog[], hours: number = 24) {
   const now = new Date();
   const hourData: { hour: string; count: number }[] = [];
 
-  for (let i = hours - 1; i >= 0; i--) {
+  for (let i = 0; i < hours; i++) {
     const date = new Date(now);
     date.setHours(date.getHours() - i, 0, 0, 0);
 
