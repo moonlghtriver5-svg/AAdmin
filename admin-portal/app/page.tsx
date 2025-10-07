@@ -33,11 +33,14 @@ export default function Home() {
     ? null
     : mockUsers.find(u => u.id === selectedUserId);
 
-  // Get logs for selected time range
-  const currentLogs = useMemo(() =>
-    getLogsForTimeRange(allLogs, timeRange),
-    [allLogs, timeRange]
-  );
+  // Get logs for selected time range and filter by user
+  const currentLogs = useMemo(() => {
+    const timeFilteredLogs = getLogsForTimeRange(allLogs, timeRange);
+    if (selectedUserId === 'all') {
+      return timeFilteredLogs;
+    }
+    return timeFilteredLogs.filter(log => log.userId === selectedUserId);
+  }, [allLogs, timeRange, selectedUserId]);
 
   // Calculate stats for current period
   const currentStats = useMemo(() =>

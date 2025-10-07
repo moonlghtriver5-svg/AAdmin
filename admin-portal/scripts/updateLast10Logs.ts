@@ -15,11 +15,11 @@ async function updateLast10Logs() {
 
     console.log(`📊 Found ${result.rows.length} logs to update\n`);
 
-    // Generate timestamps between Oct 8, 09:00 - 10:30 UTC
+    // Generate timestamps between Oct 8, 07:50 - 09:15 UTC
     const generateTimestamp = (index: number) => {
-      const baseTime = new Date('2025-10-08T09:00:00Z');
-      // Spread across 90 minutes (09:00 - 10:30)
-      const minutesRange = 90;
+      const baseTime = new Date('2025-10-08T07:50:00Z');
+      // Spread across 85 minutes (07:50 - 09:15)
+      const minutesRange = 85;
       const randomMinutes = Math.floor(Math.random() * minutesRange);
       baseTime.setMinutes(baseTime.getMinutes() + randomMinutes);
       return baseTime;
