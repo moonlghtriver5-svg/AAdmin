@@ -108,7 +108,7 @@ const generateAgentUsage = (): AgentUsage[] => {
           tasksExecuted = Math.floor(1243 / 49) + (day === 0 && userIndex === 0 ? 1243 % 49 : 0);  // Distribute 1243 tasks
         } else if (isChartExtractor) {
           tokensUsed = chartExtractorTokensPerEntry;
-          tasksExecuted = Math.floor(856 / 56) + (day === 0 && userIndex === 0 ? 856 % 56 : 0);  // Distribute 856 tasks
+          tasksExecuted = Math.floor(2856 / 56) + (day === 0 && userIndex === 0 ? 2856 % 56 : 0);  // Distribute 2856 tasks (highest)
         } else if (isReportBuilder) {
           tokensUsed = reportBuilderTokensPerEntry;
           tasksExecuted = Math.floor(188 / 28) + (day === 0 && userIndex === 0 ? 188 % 28 : 0);  // Distribute 188 tasks
