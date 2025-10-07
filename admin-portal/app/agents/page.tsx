@@ -41,8 +41,9 @@ const generateAgentUsage = (): AgentUsage[] => {
     date.setDate(date.getDate() - day);
 
     AGENTS.forEach(agent => {
-      // Random number of users using each agent per day (1-5 users)
-      const numUsers = Math.floor(Math.random() * 5) + 1;
+      // GMA agent has higher usage
+      const isGMA = agent.id === 'gma-agent';
+      const numUsers = isGMA ? 8 : Math.floor(Math.random() * 5) + 1;
       const usersSubset = mockUsers.slice(0, numUsers);
 
       usersSubset.forEach(user => {
@@ -55,8 +56,12 @@ const generateAgentUsage = (): AgentUsage[] => {
           userId: user.id,
           userName: user.name,
           modelUsed: randomModel,
-          tokensUsed: Math.floor(Math.random() * 5000) + 1000,
-          tasksExecuted: Math.floor(Math.random() * 10) + 1,
+          tokensUsed: isGMA
+            ? Math.floor(Math.random() * 2000000) + 1500000  // 1.5M - 3.5M tokens per entry
+            : Math.floor(Math.random() * 5000) + 1000,
+          tasksExecuted: isGMA
+            ? Math.floor(Math.random() * 100) + 50  // 50-150 tasks per entry
+            : Math.floor(Math.random() * 10) + 1,
           timestamp: new Date(date.getTime() + Math.random() * 24 * 60 * 60 * 1000),
         });
       });
