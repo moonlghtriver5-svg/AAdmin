@@ -119,10 +119,6 @@ export default function LoginPage() {
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
-
-        <div className="mt-8 text-center text-sm text-gray-500">
-          <p>Demo credentials: aalgo / password23!</p>
-        </div>
       </div>
     </div>
   );
