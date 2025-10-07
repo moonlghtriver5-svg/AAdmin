@@ -138,6 +138,58 @@ export default function AgentsPage() {
         </p>
       </div>
 
+      {/* User permissions table */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">User Permissions</h3>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-gray-200">
+                <th className="text-left py-3 px-4 font-medium text-gray-700">User</th>
+                {agents.map(agent => (
+                  <th key={agent.id} className="text-center py-3 px-4 font-medium text-gray-700 text-sm">
+                    {agent.name}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {mockUsers.map(user => (
+                <tr key={user.id} className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="py-3 px-4">
+                    <div>
+                      <p className="font-medium text-gray-900">{user.name}</p>
+                      <p className="text-sm text-gray-600">{user.department}</p>
+                    </div>
+                  </td>
+                  {agents.map(agent => {
+                    const hasAccess = userPermissions[user.id]?.includes(agent.id);
+                    return (
+                      <td key={agent.id} className="py-3 px-4 text-center">
+                        <button
+                          onClick={() => toggleUserPermission(user.id, agent.id)}
+                          className={`w-10 h-6 rounded-full transition ${
+                            hasAccess
+                              ? 'bg-blue-600'
+                              : 'bg-gray-300'
+                          }`}
+                        >
+                          <div
+                            className={`w-4 h-4 bg-white rounded-full transition transform ${
+                              hasAccess ? 'translate-x-5' : 'translate-x-1'
+                            }`}
+                          />
+                        </button>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       {/* Agent selector */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -224,58 +276,6 @@ export default function AgentsPage() {
               </div>
             );
           })}
-        </div>
-      </div>
-
-      {/* User permissions table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">User Permissions</h3>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-gray-200">
-                <th className="text-left py-3 px-4 font-medium text-gray-700">User</th>
-                {agents.map(agent => (
-                  <th key={agent.id} className="text-center py-3 px-4 font-medium text-gray-700 text-sm">
-                    {agent.name}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {mockUsers.map(user => (
-                <tr key={user.id} className="border-b border-gray-100 hover:bg-gray-50">
-                  <td className="py-3 px-4">
-                    <div>
-                      <p className="font-medium text-gray-900">{user.name}</p>
-                      <p className="text-sm text-gray-600">{user.department}</p>
-                    </div>
-                  </td>
-                  {agents.map(agent => {
-                    const hasAccess = userPermissions[user.id]?.includes(agent.id);
-                    return (
-                      <td key={agent.id} className="py-3 px-4 text-center">
-                        <button
-                          onClick={() => toggleUserPermission(user.id, agent.id)}
-                          className={`w-10 h-6 rounded-full transition ${
-                            hasAccess
-                              ? 'bg-blue-600'
-                              : 'bg-gray-300'
-                          }`}
-                        >
-                          <div
-                            className={`w-4 h-4 bg-white rounded-full transition transform ${
-                              hasAccess ? 'translate-x-5' : 'translate-x-1'
-                            }`}
-                          />
-                        </button>
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
