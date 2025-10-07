@@ -26,8 +26,8 @@ export async function loadProxyLogs(): Promise<ProxyLog[]> {
       console.log(`✅ Loaded ${result.rows.length} logs from database`);
       return result.rows.map((row: Record<string, unknown>) => ({
         ...row,
-        timestamp: new Date(row.timestamp),
-      }));
+        timestamp: new Date(row.timestamp as string),
+      })) as ProxyLog[];
     }
 
     // If no data in DB, fall back to JSON file
