@@ -522,7 +522,7 @@ function WeeklySpendEstimator({ modelCosts }: { modelCosts: ModelCost[] }) {
           <p>• <strong>Qwen3-30B-A3B MoE:</strong> 1x A100 80GB - $3/hr = $2,016/month (24/7)</p>
           <p>• <strong>Qwen3-Coder-30B-A3B:</strong> 1x A100 80GB - $3/hr = $2,016/month (24/7)</p>
           <p>• <strong>Qwen3-8B:</strong> 1x L40S 48GB - $1.50/hr = $1,008/month (24/7)</p>
-          <p className="font-semibold text-gray-900 mt-2">Total GPU cost: ~$9,072/month + inference costs</p>
+          <p className="font-semibold text-gray-900 mt-2">Total GPU cost: ~$9,072/month</p>
         </div>
       </div>
     </div>
