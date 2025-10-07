@@ -1,4 +1,4 @@
-import { mockProxyLogs, mockUsers, type ProxyLog } from './mockData';
+import { type ProxyLog } from './mockData';
 
 export type TimeRange = 'hourly' | 'daily' | 'weekly' | 'monthly';
 

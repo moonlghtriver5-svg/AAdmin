@@ -41,7 +41,7 @@ export default function LoginPage() {
 
       // Redirect to main page
       router.push('/');
-    } catch (err) {
+    } catch {
       setError('An error occurred. Please try again.');
       setLoading(false);
     }

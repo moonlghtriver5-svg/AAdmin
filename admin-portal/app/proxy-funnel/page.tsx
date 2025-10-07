@@ -16,7 +16,7 @@ export default function ProxyFunnelPage() {
     fetch('/api/logs')
       .then(res => res.json())
       .then(data => {
-        setLogs(data.map((log: any) => ({
+        setLogs(data.map((log: ProxyLog) => ({
           ...log,
           timestamp: new Date(log.timestamp)
         })));

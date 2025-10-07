@@ -15,9 +15,9 @@ export function loadGeneratedLogs(): ProxyLog[] {
     const logs = JSON.parse(fileContent);
 
     // Convert timestamp strings back to Date objects
-    return logs.map((log: any) => ({
+    return logs.map((log: Record<string, unknown>) => ({
       ...log,
-      timestamp: new Date(log.timestamp),
+      timestamp: new Date(log.timestamp as string),
     }));
   } catch (error) {
     console.error('Error loading generated logs:', error);

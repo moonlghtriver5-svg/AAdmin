@@ -17,7 +17,7 @@ export default function Home() {
     fetch('/api/logs')
       .then(res => res.json())
       .then(data => {
-        setAllLogs(data.map((log: any) => ({
+        setAllLogs(data.map((log: ProxyLog) => ({
           ...log,
           timestamp: new Date(log.timestamp)
         })));
@@ -47,7 +47,6 @@ export default function Home() {
 
   // Get previous period logs for growth calculation
   const previousLogs = useMemo(() => {
-    const multiplier = timeRange === 'hourly' ? 2 : timeRange === 'daily' ? 2 : timeRange === 'weekly' ? 2 : 2;
     const currentPeriodLogs = getLogsForTimeRange(allLogs, timeRange);
     if (currentPeriodLogs.length === 0) return [];
     const cutoff = new Date(Math.min(...currentPeriodLogs.map(l => l.timestamp.getTime())));
