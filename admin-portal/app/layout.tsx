@@ -29,15 +29,21 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="flex h-screen bg-[#f8f9fa]">
-          <Sidebar />
-          <div className="flex-1 flex flex-col overflow-hidden">
-            {!isLoginPage && <Header />}
-            <main className={`flex-1 overflow-y-auto ${isLoginPage ? '' : 'p-6'}`}>
-              {children}
-            </main>
+        {isLoginPage ? (
+          <main className="h-screen">
+            {children}
+          </main>
+        ) : (
+          <div className="flex h-screen bg-[#f8f9fa]">
+            <Sidebar />
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <Header />
+              <main className="flex-1 overflow-y-auto p-6">
+                {children}
+              </main>
+            </div>
           </div>
-        </div>
+        )}
       </body>
     </html>
   );

@@ -5,9 +5,10 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Public routes that don't require authentication
-  const publicRoutes = ['/login', '/api/auth/login'];
+  const publicRoutes = ['/login', '/api/auth/login', '/api/auth'];
 
-  if (publicRoutes.some(route => pathname.startsWith(route))) {
+  // Skip middleware for API routes and public routes
+  if (pathname.startsWith('/api/') || publicRoutes.some(route => pathname.startsWith(route))) {
     return NextResponse.next();
   }
 
