@@ -16,7 +16,9 @@
     "check-flags": "tsx scripts/checkAndFlagLogs.ts",
     "unflag-log": "tsx scripts/findAndUnflagLog.ts",
     "vary-prompts": "tsx scripts/varyApiPrompts.ts",
-    "anonymize-users": "tsx scripts/anonymizeUserData.ts"
+    "anonymize-users": "tsx scripts/anonymizeUserData.ts",
+    "update-last-10": "tsx scripts/updateLast10Logs.ts",
+    "add-user": "tsx scripts/addUser.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
