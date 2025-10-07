@@ -46,9 +46,15 @@ const generateAgentUsage = (): AgentUsage[] => {
       const numUsers = isGMA ? 8 : Math.floor(Math.random() * 5) + 1;
       const usersSubset = mockUsers.slice(0, numUsers);
 
-      usersSubset.forEach(user => {
+      usersSubset.forEach((user, userIndex) => {
         const models = ['gpt-4.1', 'claude-sonnet-4', 'gemini-2.5-pro', 'qwen-2.5-vl-72b'];
         const randomModel = models[Math.floor(Math.random() * models.length)];
+
+        // For GMA, distribute ~13.65M tokens across 8 users and 7 days (56 entries)
+        // That's ~243,750 tokens per entry on average
+        const gmaTokensPerEntry = day === 0 && userIndex === 0
+          ? 13650000 - (55 * 243750)  // First entry gets remainder to hit exact total
+          : 243750;
 
         usage.push({
           agentId: agent.id,
@@ -57,10 +63,10 @@ const generateAgentUsage = (): AgentUsage[] => {
           userName: user.name,
           modelUsed: randomModel,
           tokensUsed: isGMA
-            ? Math.floor(Math.random() * 2000000) + 1500000  // 1.5M - 3.5M tokens per entry
+            ? gmaTokensPerEntry
             : Math.floor(Math.random() * 5000) + 1000,
           tasksExecuted: isGMA
-            ? Math.floor(Math.random() * 100) + 50  // 50-150 tasks per entry
+            ? Math.floor(565 / 56) + (day === 0 && userIndex === 0 ? 565 % 56 : 0)  // Distribute 565 tasks
             : Math.floor(Math.random() * 10) + 1,
           timestamp: new Date(date.getTime() + Math.random() * 24 * 60 * 60 * 1000),
         });
