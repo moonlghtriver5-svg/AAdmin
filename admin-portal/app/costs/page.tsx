@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function BenchmarksRedirect() {
+export default function CostsRedirect() {
   const router = useRouter();
 
   useEffect(() => {

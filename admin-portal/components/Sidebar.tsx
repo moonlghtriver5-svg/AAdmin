@@ -10,7 +10,7 @@ export default function Sidebar() {
     { name: 'Usage', path: '/', icon: '📊' },
     { name: 'Controls', path: '/controls', icon: '⚙️' },
     { name: 'Agents', path: '/agents', icon: '🤖' },
-    { name: 'Benchmarks', path: '/benchmarks', icon: '📈' },
+    { name: 'Models', path: '/models', icon: '🧠' },
     { name: 'Proxy Funnel', path: '/proxy-funnel', icon: '🔍' },
   ];
 
