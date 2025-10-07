@@ -3,14 +3,14 @@ import { query } from '../lib/db';
 
 async function findAndUnflagLog() {
   try {
-    console.log('🔍 Looking for "how do i get started, step 1" log...');
+    console.log('🔍 Looking for healthcare/ISO 27001 prompt...');
 
     // Find logs with similar text
     const result = await query(`
       SELECT id, prompt, flagged, flag_reason, timestamp
       FROM proxy_logs
-      WHERE prompt ILIKE '%how do i get started%'
-         OR prompt ILIKE '%step 1%'
+      WHERE prompt ILIKE '%healthcare%'
+         OR prompt ILIKE '%ISO 27001%'
       ORDER BY timestamp DESC
       LIMIT 10
     `);
@@ -31,8 +31,8 @@ async function findAndUnflagLog() {
     // Find the one that's incorrectly flagged
     const incorrectlyFlagged = result.rows.filter(log =>
       log.flagged &&
-      (log.prompt.toLowerCase().includes('how do i get started') ||
-       log.prompt.toLowerCase().includes('step 1'))
+      (log.prompt.toLowerCase().includes('healthcare') ||
+       log.prompt.toLowerCase().includes('iso 27001'))
     );
 
     if (incorrectlyFlagged.length === 0) {
