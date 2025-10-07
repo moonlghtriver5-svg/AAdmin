@@ -53,11 +53,35 @@ export default function ProxyFunnelPage() {
   return (
     <div className="space-y-6">
       {/* Page header */}
-      <div>
-        <h2 className="text-3xl font-bold text-gray-900">Proxy Funnel</h2>
-        <p className="text-gray-600 mt-2">
-          Audit trail of all AI interactions for compliance and security
-        </p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h2 className="text-3xl font-bold text-gray-900">Proxy Funnel</h2>
+          <p className="text-gray-600 mt-2">
+            Audit trail of all AI interactions for compliance and security
+          </p>
+        </div>
+        <button
+          onClick={() => {
+            // Export filtered logs for fine-tuning
+            const exportData = filteredLogs.map(log => ({
+              prompt: log.prompt,
+              response: log.response,
+              model: log.modelId,
+            }));
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'fine-tuning-data.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+          }}
+          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition shadow-lg shadow-blue-500/30"
+        >
+          Use data for Fine Tuning
+        </button>
       </div>
 
       {/* Filters */}
