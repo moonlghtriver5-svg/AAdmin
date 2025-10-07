@@ -304,7 +304,7 @@ export default function CostsTab() {
               </div>
             </div>
             <p className="text-xs text-gray-600 mt-3 italic">
-              * Benchmarked with vLLM/SGLang, batch size 256, continuous batching enabled
+              * Benchmarked with batch size 256, continuous batching enabled
             </p>
           </div>
         </div>
@@ -314,14 +314,14 @@ export default function CostsTab() {
 
           <div className="space-y-3 text-sm text-gray-700">
             <div className="border-l-4 border-blue-500 pl-3">
-              <p className="font-semibold text-gray-900">Qwen3-30B-A3B (MoE) on A100 80GB with vLLM:</p>
+              <p className="font-semibold text-gray-900">Qwen3-30B-A3B (MoE) on A100 80GB:</p>
               <p>• GPU cost: $3.00/hr</p>
               <p>• Throughput (batched): ~1,600 tokens/second = 5.76M tokens/hour</p>
               <p>• Cost per 1M tokens: ($3.00 / 5.76) = <strong>~$0.52 per 1M tokens</strong></p>
             </div>
 
             <div className="border-l-4 border-green-500 pl-3">
-              <p className="font-semibold text-gray-900">Qwen3-8B on A100 80GB with vLLM:</p>
+              <p className="font-semibold text-gray-900">Qwen3-8B on A100 80GB:</p>
               <p>• GPU cost: $2.00/hr (can use cheaper GPU)</p>
               <p>• Throughput (batched): ~3,300 tokens/second = 11.88M tokens/hour</p>
               <p>• Cost per 1M tokens: ($2.00 / 11.88) = <strong>~$0.17 per 1M tokens</strong></p>
