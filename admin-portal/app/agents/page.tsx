@@ -309,6 +309,102 @@ export default function AgentsPage() {
         ))}
       </div>
 
+      {/* Agent Usage by User Graph */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Agent Usage by User</h3>
+        <p className="text-sm text-gray-600 mb-6">Total tasks executed per user across all agents</p>
+
+        <div className="space-y-4">
+          {mockUsers.map(user => {
+            const userUsage = agentUsage.filter(u => u.userId === user.id);
+            const totalTasks = userUsage.reduce((sum, u) => sum + u.tasksExecuted, 0);
+            const totalTokens = userUsage.reduce((sum, u) => sum + u.tokensUsed, 0);
+
+            // Group by agent
+            const agentTaskCounts: Record<string, number> = {};
+            userUsage.forEach(usage => {
+              agentTaskCounts[usage.agentName] = (agentTaskCounts[usage.agentName] || 0) + usage.tasksExecuted;
+            });
+
+            return (
+              <div key={user.id} className="border-b border-gray-100 pb-4 last:border-b-0 last:pb-0">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-medium text-gray-900">{user.name}</span>
+                      <div className="flex items-center space-x-4 text-sm">
+                        <span className="text-gray-600">{totalTasks} tasks</span>
+                        <span className="text-gray-600">{(totalTokens / 1_000_000).toFixed(2)}M tokens</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2 mb-2">
+                      <span className="text-xs text-gray-500">{user.department}</span>
+                      <span className="text-xs text-gray-400">•</span>
+                      <span className="text-xs text-gray-500">{Object.keys(agentTaskCounts).length} agents</span>
+                    </div>
+
+                    {/* Stacked bar showing agent breakdown */}
+                    <div className="relative w-full bg-gray-200 rounded-full h-6 overflow-hidden">
+                      <div className="absolute inset-0 flex">
+                        {Object.entries(agentTaskCounts)
+                          .sort(([, a], [, b]) => b - a)
+                          .map(([agentName, tasks], idx) => {
+                            const percentage = (tasks / totalTasks) * 100;
+                            const colors = [
+                              'bg-blue-500',
+                              'bg-green-500',
+                              'bg-purple-500',
+                              'bg-yellow-500',
+                              'bg-pink-500',
+                              'bg-indigo-500',
+                            ];
+                            return (
+                              <div
+                                key={agentName}
+                                className={`${colors[idx % colors.length]} h-full flex items-center justify-center`}
+                                style={{ width: `${percentage}%` }}
+                                title={`${agentName}: ${tasks} tasks (${percentage.toFixed(1)}%)`}
+                              >
+                                {percentage > 10 && (
+                                  <span className="text-xs font-medium text-white px-1 truncate">
+                                    {tasks}
+                                  </span>
+                                )}
+                              </div>
+                            );
+                          })}
+                      </div>
+                    </div>
+
+                    {/* Legend */}
+                    <div className="flex flex-wrap gap-3 mt-2">
+                      {Object.entries(agentTaskCounts)
+                        .sort(([, a], [, b]) => b - a)
+                        .map(([agentName], idx) => {
+                          const colors = [
+                            'bg-blue-500',
+                            'bg-green-500',
+                            'bg-purple-500',
+                            'bg-yellow-500',
+                            'bg-pink-500',
+                            'bg-indigo-500',
+                          ];
+                          return (
+                            <div key={agentName} className="flex items-center space-x-1">
+                              <div className={`w-3 h-3 rounded ${colors[idx % colors.length]}`}></div>
+                              <span className="text-xs text-gray-600">{agentName.split(' ')[0]}</span>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Token usage by model */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <h3 className="text-xl font-semibold text-gray-900 mb-4">Token Usage by Model</h3>

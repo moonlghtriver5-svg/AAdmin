@@ -280,7 +280,7 @@ export default function CostsTab() {
           </div>
 
           <div className="border border-gray-200 rounded-lg p-4">
-            <h4 className="font-semibold text-gray-900 mb-3">Actual vLLM Throughput (Batch Processing)</h4>
+            <h4 className="font-semibold text-gray-900 mb-3">Actual Throughput (Batch Processing)</h4>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-700">7B-8B models (Qwen3-8B)</span>
