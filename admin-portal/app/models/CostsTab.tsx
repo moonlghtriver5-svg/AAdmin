@@ -44,7 +44,7 @@ export default function CostsTab() {
 
         // Aggregate token usage by model
         const usageMap = new Map<string, number>();
-        logs.forEach((log: any) => {
+        logs.forEach((log: { model_id: string; tokens_used?: number }) => {
           const current = usageMap.get(log.model_id) || 0;
           usageMap.set(log.model_id, current + (log.tokens_used || 0));
         });
@@ -420,7 +420,6 @@ function WeeklySpendEstimator({ modelCosts }: { modelCosts: ModelCost[] }) {
   }>;
 
   const totalWeeklySpend = estimates.reduce((sum, e) => sum + e.spend, 0);
-  const monthlySpend = totalWeeklySpend * 4.33; // Average weeks per month
 
   return (
     <div className="space-y-4">
