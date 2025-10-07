@@ -23,7 +23,7 @@ interface AgentUsage {
 
 const AGENTS: Agent[] = [
   { id: 'gma-agent', name: 'GMA (Global Macro Agent)', description: 'Global macro analysis and economic intelligence', enabled: true },
-  { id: 'prd-agent', name: 'PRD Agent', description: 'Product Requirements Document generator', enabled: true },
+  { id: 'prd-agent', name: 'PRD Agent', description: 'Analyse PRD Data using natural language', enabled: true },
   { id: 'chart-builder', name: 'Chart Builder Agent', description: 'Creates visualizations from data', enabled: true },
   { id: 'pipelines-agent', name: 'Pipelines Agent', description: 'Manages data processing pipelines', enabled: true },
   { id: 'chart-extractor', name: 'Chart/Table Extractor Agent', description: 'Extracts data from charts and tables', enabled: true },
@@ -41,20 +41,78 @@ const generateAgentUsage = (): AgentUsage[] => {
     date.setDate(date.getDate() - day);
 
     AGENTS.forEach(agent => {
-      // GMA agent has higher usage
+      // Agent usage configuration
       const isGMA = agent.id === 'gma-agent';
-      const numUsers = isGMA ? 8 : Math.floor(Math.random() * 5) + 1;
+      const isPRD = agent.id === 'prd-agent';
+      const isChartBuilder = agent.id === 'chart-builder';
+      const isPipelines = agent.id === 'pipelines-agent';
+      const isChartExtractor = agent.id === 'chart-extractor';
+      const isReportBuilder = agent.id === 'report-builder';
+      const numUsers = isGMA ? 8 : isPRD ? 6 : isChartBuilder ? 5 : isPipelines ? 7 : isChartExtractor ? 8 : isReportBuilder ? 4 : Math.floor(Math.random() * 5) + 1;
       const usersSubset = mockUsers.slice(0, numUsers);
 
       usersSubset.forEach((user, userIndex) => {
-        const models = ['gpt-4.1', 'claude-sonnet-4', 'gemini-2.5-pro', 'qwen-2.5-vl-72b'];
+        const models = ['gpt-4.1', 'claude-sonnet-4', 'gemini-2.5-pro', 'qwen-2.5-vl-72b', 'qwen-3-8b'];
         const randomModel = models[Math.floor(Math.random() * models.length)];
 
-        // For GMA, distribute ~13.65M tokens across 8 users and 7 days (56 entries)
-        // That's ~243,750 tokens per entry on average
+        // For GMA, distribute 13,653,889 tokens across 8 users and 7 days (56 entries)
+        // That's ~243,819 tokens per entry on average
         const gmaTokensPerEntry = day === 0 && userIndex === 0
-          ? 13650000 - (55 * 243750)  // First entry gets remainder to hit exact total
-          : 243750;
+          ? 13653889 - (55 * 243819)  // First entry gets remainder to hit exact total
+          : 243819;
+
+        // For PRD, distribute 7,343,283 tokens across 6 users and 7 days (42 entries)
+        // That's ~174,840 tokens per entry on average
+        const prdTokensPerEntry = day === 0 && userIndex === 0
+          ? 7343283 - (41 * 174840)  // First entry gets remainder to hit exact total
+          : 174840;
+
+        // For Chart Builder, distribute 5,342,244 tokens across 5 users and 7 days (35 entries)
+        // That's ~152,635 tokens per entry on average
+        const chartBuilderTokensPerEntry = day === 0 && userIndex === 0
+          ? 5342244 - (34 * 152635)  // First entry gets remainder to hit exact total
+          : 152635;
+
+        // For Pipelines, distribute 7,234,765 tokens across 7 users and 7 days (49 entries)
+        // That's ~147,648 tokens per entry on average
+        const pipelinesTokensPerEntry = day === 0 && userIndex === 0
+          ? 7234765 - (48 * 147648)  // First entry gets remainder to hit exact total
+          : 147648;
+
+        // For Chart Extractor, distribute 21,232,122 tokens across 8 users and 7 days (56 entries)
+        // That's ~379,145 tokens per entry on average
+        const chartExtractorTokensPerEntry = day === 0 && userIndex === 0
+          ? 21232122 - (55 * 379145)  // First entry gets remainder to hit exact total
+          : 379145;
+
+        // For Report Builder, distribute 854,233 tokens across 4 users and 7 days (28 entries)
+        // That's ~30,508 tokens per entry on average
+        const reportBuilderTokensPerEntry = day === 0 && userIndex === 0
+          ? 854233 - (27 * 30508)  // First entry gets remainder to hit exact total
+          : 30508;
+
+        let tokensUsed = Math.floor(Math.random() * 5000) + 1000;
+        let tasksExecuted = Math.floor(Math.random() * 10) + 1;
+
+        if (isGMA) {
+          tokensUsed = gmaTokensPerEntry;
+          tasksExecuted = Math.floor(565 / 56) + (day === 0 && userIndex === 0 ? 565 % 56 : 0);
+        } else if (isPRD) {
+          tokensUsed = prdTokensPerEntry;
+          tasksExecuted = Math.floor(Math.random() * 15) + 5;
+        } else if (isChartBuilder) {
+          tokensUsed = chartBuilderTokensPerEntry;
+          tasksExecuted = Math.floor(360 / 35) + (day === 0 && userIndex === 0 ? 360 % 35 : 0);  // Distribute 360 tasks
+        } else if (isPipelines) {
+          tokensUsed = pipelinesTokensPerEntry;
+          tasksExecuted = Math.floor(1243 / 49) + (day === 0 && userIndex === 0 ? 1243 % 49 : 0);  // Distribute 1243 tasks
+        } else if (isChartExtractor) {
+          tokensUsed = chartExtractorTokensPerEntry;
+          tasksExecuted = Math.floor(856 / 56) + (day === 0 && userIndex === 0 ? 856 % 56 : 0);  // Distribute 856 tasks
+        } else if (isReportBuilder) {
+          tokensUsed = reportBuilderTokensPerEntry;
+          tasksExecuted = Math.floor(188 / 28) + (day === 0 && userIndex === 0 ? 188 % 28 : 0);  // Distribute 188 tasks
+        }
 
         usage.push({
           agentId: agent.id,
@@ -62,12 +120,8 @@ const generateAgentUsage = (): AgentUsage[] => {
           userId: user.id,
           userName: user.name,
           modelUsed: randomModel,
-          tokensUsed: isGMA
-            ? gmaTokensPerEntry
-            : Math.floor(Math.random() * 5000) + 1000,
-          tasksExecuted: isGMA
-            ? Math.floor(565 / 56) + (day === 0 && userIndex === 0 ? 565 % 56 : 0)  // Distribute 565 tasks
-            : Math.floor(Math.random() * 10) + 1,
+          tokensUsed,
+          tasksExecuted,
           timestamp: new Date(date.getTime() + Math.random() * 24 * 60 * 60 * 1000),
         });
       });
@@ -82,10 +136,18 @@ export default function AgentsPage() {
   const [agentUsage] = useState<AgentUsage[]>(generateAgentUsage());
   const [selectedAgent, setSelectedAgent] = useState<string>('all');
   const [userPermissions, setUserPermissions] = useState<Record<string, string[]>>(() => {
-    // Initialize with all users having access to all agents
+    // Initialize with randomized permissions - executives get all, others get random subset
     const permissions: Record<string, string[]> = {};
     mockUsers.forEach(user => {
-      permissions[user.id] = agents.map(a => a.id);
+      if (user.department === 'Executive') {
+        // Executives get access to all agents
+        permissions[user.id] = agents.map(a => a.id);
+      } else {
+        // Other users get random access to 3-5 agents
+        const numAgents = Math.floor(Math.random() * 3) + 3; // 3-5 agents
+        const shuffled = [...agents].sort(() => Math.random() - 0.5);
+        permissions[user.id] = shuffled.slice(0, numAgents).map(a => a.id);
+      }
     });
     return permissions;
   });
