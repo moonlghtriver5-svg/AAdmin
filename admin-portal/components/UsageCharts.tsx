@@ -6,7 +6,7 @@ import { getMessagesByDay, getMessagesByHour, getModelDistribution, getTokenUsag
 
 interface UsageChartsProps {
   logs: ProxyLog[];
-  selectedUser: User | null;
+  selectedUser: User | null | undefined;
   timeRange: TimeRange;
 }
 
