@@ -53,7 +53,7 @@ export default function UsageCharts({ logs, selectedUser, timeRange }: UsageChar
         <h3 className="text-lg font-semibold text-gray-900 mb-4">
           Messages Over Time
         </h3>
-        <div className="space-y-3">
+        <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
           {timeSeriesData.map((item, index) => {
             const maxCount = Math.max(...timeSeriesData.map(d => 'count' in d ? d.count : 0));
             const count = 'count' in item ? item.count : 0;
